@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement //开启注解方式的事务管理
 @Slf4j
 @EnableCaching
+//@MapperScan("com.mini.mapper")
 public class ServerApplication {
 
     public static void main(String[] args) {

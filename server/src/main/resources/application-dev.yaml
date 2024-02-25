@@ -1,7 +1,8 @@
 mini:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
+#    host: localhost
+    host: mysql
     port: "3306"
     database: mini_order
     username: root

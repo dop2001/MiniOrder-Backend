@@ -14,6 +14,9 @@
  Date: 25/02/2024 13:21:11
 */
 
+CREATE DATABASE  IF NOT EXISTS `test_order` ;
+USE `test_order`;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
