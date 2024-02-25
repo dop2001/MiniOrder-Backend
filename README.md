@@ -54,9 +54,9 @@ source mini_order.sql
 
 > Run code
 
-1、If you need to re-develop the source code, please first download the `IDEA` compiler and import this project into it, and finally execute the `ServerApplication.java` file to run the project. **Note: Please set your database account and password in the `application.yaml` configuration file.**
+1. If you need to re-develop the source code, please first download the `IDEA` compiler and import this project into it, and finally execute the `ServerApplication.java` file to run the project. **Note: Please set your database account and password in the `application.yaml` configuration file.**
 
-2、 你也可以使用 jar 包直接运行。
+2. You can also use the jar package to run directly.
 
 ```shell
 # pull jdk17 image
