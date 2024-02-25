@@ -6,6 +6,7 @@
 - Maven
 - Redis
 - MySQL
+- Docker
 
 
 

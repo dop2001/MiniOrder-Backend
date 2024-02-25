@@ -6,6 +6,7 @@ The repository contains the backend service code for the WeChat ordering mini-pr
 - Maven
 - Redis
 - MySQL
+- Docker
 
 
 
