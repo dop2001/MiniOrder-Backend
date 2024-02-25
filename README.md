@@ -1,4 +1,4 @@
-## 1、Introduction
+## 1. Introduction
 
 The repository contains the backend service code for the WeChat ordering mini-program "miniOrder". Technologies and tools used include:
 
@@ -10,7 +10,7 @@ The repository contains the backend service code for the WeChat ordering mini-pr
 
 
 
-## 2、Deployment Steps
+## 2. Deployment Steps
 
 >Database Installation and Setup
 
