@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${mini.datasource.driver-class-name}
+      url: jdbc:mysql://${mini.datasource.host}:${mini.datasource.port}/${mini.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${mini.datasource.username}
+      password: ${mini.datasource.password}
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.mini.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      mini:
+        mapper: debug
+        service: info
+        controller: info
+
+mini:
+  jwt:
+    user-secret-key: miniOrder
+    user-ttl: 72000000
+    user-token-name: authentication
+
+  wechat:
+    appid: ${mini.wechat.appid}
+    secret: ${mini.wechat.secret}
