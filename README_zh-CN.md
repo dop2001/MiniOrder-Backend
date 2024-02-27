@@ -1,4 +1,4 @@
-## 1、简介
+## 简介
 
 该仓库为微信点餐小程序miniOrder的后端服务代码，使用到的技术和工具有:
 
@@ -10,63 +10,54 @@
 
 
 
-## 2、部署步骤
+## 部署步骤
 
-> 数据库安装与设置
+> 通过 jar 包运行 (Linux)
 
-1、使用 `Docker` 拉取并安装 `MySQL `容器。
+1. 安装  `docker` 和 `docker-compose` 。
 
-```shell
-# 创建文件夹用于挂载
-mkdir ~/mysql && cd ~/mysql
-# 拉取mysql镜像
-docker pull mysql:5.7
-# 创建并运行mysql容器
-docker run -id \
-	-p 3306:3306 \ 
-	-v $PWD/conf:/etc/mysql/conf.d \
-	-v $PWD/logs:/logs \
-	-v $PWD/data:/var/lib/mysql \
-	-e MYSQL_ROOT_PASSWORD=123456 \
-	--name mysql \
-	mysql:5.7
-```
+   ```shell
+   # 更新软件包索引
+   sudo apt update
+   
+   # 安装必要的依赖软件
+   sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+   
+   # 导入源仓库的 GPG key
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+   
+   # 将Docker APT软件源添加到系统中
+   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+   
+   # 安装Docker最新版本
+   sudo apt update
+   sudo apt install docker-ce docker-ce-cli containerd.io
+   ```
 
-2、执行 `mini_order.sql` 文件，将自动创建好项目所需要使用到的数据表。
+2. 运行 `docker-compose.yml`  文件以自动构建所需容器。
 
-```shell
-# 克隆代码到当前用户文件夹下
-cd ~ && git clone https://github.com/dop2001/MiniOrder-Backend.git
-# 将sql文件复制到mysql容器的根目录下
-docker cp MiniOrder-Backend/mini_order.sql mysql:/
-# 进入mysql容器中
-docker exec -it mysql /bin/bash
-# 登录mysql
-mysql -u root -p123456
-# 运行sql文件
-source mini_order.sql
-```
+   ```shell
+   # 创建一个空文件夹来保存项目文件
+   mkdir project && cd project
+   git clone https://github.com/dop2001/MiniOrder-Backend.git
+   
+   # 运行
+   docker-compose up -d
+   ```
 
-> 运行代码
+3. 在数据库中创建数据表。
 
-1、如果你需要对源码进行再次开发，请先下载 `IDEA`  编译器并将本项目导入进去，最后执行 `ServerApplication.java` 文件即可运行本项目。注意：请在 `application.yaml` 配置文件内设置你的数据库账号和密码等信息。
+   ```bash
+   # 进入mysql容器中
+   docker exec -it mysql /bin/bash
+   
+   # 执行sql文件
+   mysql -u root -p123456 < mini_order.sql
+   ```
 
-2、 你也可以使用 jar 包直接运行。
+> 通过源码运行 (Linux & Win)
 
-```shell
-# 拉取jdk17镜像
-docker pull openjdk:17-jdk-alpine
-# --link使得当前容器能够访问mysql容器
-docker run -id \
-	-p 8080:8080 \
-	--link mysql \
-	--name miniOrder \
-	openjdk:17-jdk-alpine
-# 将jar包复制到容器内
-docker cp MiniOrder-Backend/miniOrder.jar miniOrder:/
-# 进入容器并运行jar包
-docker exec -it miniOrder /bin/sh
-# 运行jar包
-java -jar miniOrder.jar
-```
+1. 系统需要提前安装 `Mysql` 和 `JDK 17` 环境。
+2. 下载安装 `Navicat` ，通过其连接本地数据库并导入`mini_order.sql` 文件构建数据表。
+3. 如果你需要对源码进行再次开发，请先下载 `IDEA`  编译器并将本项目导入进去，最后执行 `ServerApplication.java` 文件即可运行本项目。注意：请在 `application.yaml` 配置文件内设置你的数据库账号和密码等信息。
 

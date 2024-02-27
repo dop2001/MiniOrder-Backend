@@ -1,0 +1,34 @@
+version: '1.0'
+
+networks:
+    mininet:
+      driver: bridge
+
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        volumes:
+            - ./mysql/conf:/etc/mysql/conf.d
+            - ./mysql/logs:/logs
+            - ./mysql/data:/var/lib/mysql
+            - ./MiniOrder-Backend/mini_order.sql:/mini_order.sql
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+        networks:
+            - mininet
+        restart: always
+    
+    jdk17:
+        image: openjdk:17-jdk-alpine
+        container_name: miniOrder
+        volumes:
+            - ./MiniOrder-Backend/miniOrder.jar:/miniOrder.jar
+        ports:
+            - "8080:8080"
+        command: java -jar miniOrder.jar
+        networks:
+            - mininet
+        restart: always

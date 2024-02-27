@@ -1,4 +1,4 @@
-## 1. Introduction
+## Introduction
 
 The repository contains the backend service code for the WeChat ordering mini-program "miniOrder". Technologies and tools used include:
 
@@ -10,71 +10,55 @@ The repository contains the backend service code for the WeChat ordering mini-pr
 
 
 
-## 2. Deployment Steps
+## Deployment Steps
 
->Database Installation and Setup
+>Run via jar package (Linux)
 
-1. Use `Docker` to pull and install the `MySQL` container.
+1. Install `docker` and `docker-compose`.
 
-```shell
-# create folder for mounting
-mkdir ~/mysql && cd ~/mysql
+   ```shell
+   # update package index
+   sudo apt update
+   
+   # install necessary dependent software
+   sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+   
+   # import the GPG key of the source repository
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+   
+   # add the Docker APT software source to the system
+   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+   
+   # install the latest version of Docker
+   sudo apt update
+   sudo apt install docker-ce docker-ce-cli containerd.io
+   ```
 
-# pull mysql image
-docker pull mysql:5.7
+2. Run the `docker-compose.yml` file to automatically build the required containers.
 
-# create and run mysql container
-docker run -id \
-	-p 3306:3306 \ 
-	-v $PWD/conf:/etc/mysql/conf.d \
-	-v $PWD/logs:/logs \
-	-v $PWD/data:/var/lib/mysql \
-	-e MYSQL_ROOT_PASSWORD=123456 \
-	--name mysql \
-	mysql:5.7
-```
+   ```shell
+   # create an empty folder to save project files
+   mkdir project && cd project
+   git clone https://github.com/dop2001/MiniOrder-Backend.git
+   
+   # run
+   docker-compose up -d
+   ```
 
-2. Executing the `mini_order.sql` file will automatically create the data tables needed for the project.
+3. Create a data table in the database.
 
-```shell
-# clone the code to the current user folder
-cd ~ && git clone https://github.com/dop2001/MiniOrder-Backend.git
+   ```shell
+   # enter the mysql container
+   docker exec -it mysql /bin/bash
+   
+   # execute sql file
+   mysql -u root -p123456 < mini_order.sql
+   ```
 
-# copy the sql file to the root directory of the mysql container
-docker cp MiniOrder-Backend/mini_order.sql mysql:/
+   
 
-# enter the mysql container
-docker exec -it mysql /bin/bash
+> Run from source code (Linux & Win)
 
-# login mysql
-mysql -u root -p123456
-
-# run sql file
-source mini_order.sql
-```
-
-> Run code
-
-1. If you need to re-develop the source code, please first download the `IDEA` compiler and import this project into it, and finally execute the `ServerApplication.java` file to run the project. **Note: Please set your database account and password in the `application.yaml` configuration file.**
-
-2. You can also use the jar package to run directly.
-
-```shell
-# pull jdk17 image
-docker pull openjdk:17-jdk-alpine
-
-# --link enables the current container to access the mysql container
-docker run -id \
-	-p 8080:8080 \
-	--link mysql \
-	--name miniOrder \
-	openjdk:17-jdk-alpine
-	
-# copy the jar package into the container
-docker cp MiniOrder-Backend/miniOrder.jar miniOrder:/
-
-# enter the container and run the jar package
-docker exec -it miniOrder /bin/sh
-java -jar miniOrder.jar
-```
-
+1. The system needs to install `Mysql` and `JDK 17` environments in advance.
+2. Download and install `Navicat`, connect to the local database through it and import the `mini_order.sql` file to build a data table.
+3. If you need to re-develop the source code, please first download the `IDEA` compiler and import this project into it, and finally execute the `ServerApplication.java` file to run the project. Note: Please set your database account and password in the `application.yaml` configuration file.
